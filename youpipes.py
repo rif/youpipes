@@ -19,8 +19,10 @@ class MainPage(webapp2.RequestHandler):
     template = jinja_environment.get_template('templates/index.html')
     self.response.out.write(template.render(template_values))
 
-  def post(self):
-    search_term = cgi.escape(self.request.get('content')).encode('UTF-8')
+class SearchPage(webapp2.RequestHandler):
+  def get(self):
+    search_term = cgi.escape(self.request.get("v")).encode('UTF-8')    
+
     if not search_term:
         self.redirect('/')
         return
@@ -58,6 +60,7 @@ class AboutPage(webapp2.RequestHandler):
            
 app = webapp2.WSGIApplication([
     ('/', MainPage),
+    ('/search', SearchPage),
     ('/about', AboutPage),
     ('/contact', ContactPage),
     ],debug=True)
