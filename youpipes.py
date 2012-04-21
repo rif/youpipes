@@ -2,6 +2,7 @@ import cgi
 import os
 import webapp2
 import jinja2
+from google.appengine.api import mail
 
 import gdata.youtube
 import gdata.youtube.service
@@ -29,7 +30,7 @@ class MainPage(webapp2.RequestHandler):
     query = gdata.youtube.service.YouTubeVideoQuery()
 
     query.vq = search_term
-    query.max_results = '5'
+    query.max_results = '25'
     template_values = {
         'feed': client.YouTubeQuery(query),
         'search_term': search_term,
@@ -37,5 +38,26 @@ class MainPage(webapp2.RequestHandler):
     template = jinja_environment.get_template('templates/search.html')
     self.response.out.write(template.render(template_values))
 
+class ContactPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/contact.html')
+        self.response.out.write(template.render({}))        
+    def post(self):
+        message = mail.EmailMessage(sender="Radu Fericean (YouPipes) <fericean@gmail.com>",
+                            subject="YouPipes message from " + cgi.escape(self.request.get('email')))
+        message.to = "Radu Fericean <radu@fericean.ro>"
+        message.body = cgi.escape(self.request.get('content'))
+        message.send()
+        self.redirect('/')
+        
+
+class AboutPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/about.html')
+        self.response.out.write(template.render({})) 
            
-app = webapp2.WSGIApplication([('/', MainPage)],debug=True)
+app = webapp2.WSGIApplication([
+    ('/', MainPage),
+    ('/about', AboutPage),
+    ('/contact', ContactPage),
+    ],debug=True)
