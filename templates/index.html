@@ -1,5 +1,6 @@
 {% extends "templates/base.html" %}
 {% block content %}       
+{% autoescape true %}
 <span class="listing_title">{{ title }}</span><br /><br />
 	{% for entry in feed.entry %}
 	<div class="row">
@@ -18,4 +19,5 @@
     <div class="row"><div class="span4"><hr class="slight"/></div></div>
     </div>    
 	{% endfor %}
+{% endautoescape %}
 {% endblock %}
