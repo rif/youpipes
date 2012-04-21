@@ -4,7 +4,7 @@
 	{% for entry in feed.entry %}
 	<div class="row">
 		<div class="span3">
-			<a class="yt" href="{{ entry.media.player.url }}"><img class="thumb" src="{{ entry.media.thumbnail[0].url }}" alt=""/></a><br /><br />
+			<a class="yt" title="{{ ("" + entry.title.text).decode('utf-8') }}" href="{{ entry.media.player.url }}"><img class="thumb" src="{{ entry.media.thumbnail[0].url }}" alt="{{ ("" + entry.title.text).decode('utf-8') }}"/></a><br /><br />
   			<span class="video_rating">Rating: {{ entry.rating.average }} of 5 stars<br/>{{ entry.rating.num_raters }} Votes </span>
 		</div>
 		<div class="span9">
