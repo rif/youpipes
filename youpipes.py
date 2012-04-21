@@ -45,8 +45,8 @@ class ContactPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/contact.html')
         self.response.out.write(template.render({}))        
     def post(self):
-        name = cgi.escape(self.request.get('from').encode('UTF-8')
-        email = cgi.escape(self.request.get('email').encode('UTF-8')
+        name = cgi.escape(self.request.get('from')).encode('UTF-8')
+        email = cgi.escape(self.request.get('email')).encode('UTF-8')
         message = mail.EmailMessage(sender="Radu Fericean (YouPipes) <fericean@gmail.com>",
                             subject="YouPipes message from %s (%s)" % (name, email))
         message.to = "Radu Fericean <radu@fericean.ro>"
