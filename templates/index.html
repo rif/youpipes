@@ -1,6 +1,6 @@
 {% extends "templates/base.html" %}
 {% block content %}       
-<span class="listing_title">Recently Featured Videos</span><br /><br />
+<span class="listing_title">{{ title }}</span><br /><br />
 	{% for entry in feed.entry %}
 	<div class="row">
 		<div class="span3">
@@ -15,7 +15,7 @@
       entry.published.text.split('T')[1][:5] + ' PST').decode('utf-8') }}</span><br />
   			<span class="video_keywords"><strong>Keywords:</strong> {{ ('%s' % entry.media.keywords.text).decode('utf-8') }} </span><br />
   		</div>	
-    <div class="row"><div class="span4" height="20" colspan="2"><hr class="slight"/></div></div>
+    <div class="row"><div class="span4"><hr class="slight"/></div></div>
     </div>    
 	{% endfor %}
 {% endblock %}

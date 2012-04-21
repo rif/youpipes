@@ -8,14 +8,17 @@ import gdata.youtube
 import gdata.youtube.service
 import gdata.alt.appengine
 
-jinja_environment = jinja2.Environment(
+jinja_environment = jinja2.Environment(extensions=['jinja2.ext.autoescape'],\
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__))) 
 
 class MainPage(webapp2.RequestHandler):
   def get(self):    
     client = gdata.youtube.service.YouTubeService()
     gdata.alt.appengine.run_on_appengine(client)    
-    template_values = {'feed': client.GetRecentlyFeaturedVideoFeed()}
+    template_values = {
+        'feed': client.GetRecentlyFeaturedVideoFeed(),
+        'title': 'Recently Featured Videos'
+        }
     template = jinja_environment.get_template('templates/index.html')
     self.response.out.write(template.render(template_values))
 
@@ -35,9 +38,10 @@ class SearchPage(webapp2.RequestHandler):
     query.max_results = '25'
     template_values = {
         'feed': client.YouTubeQuery(query),
+        'title': "Searching for '%s'" % search_term,
         'search_term': search_term,
     }
-    template = jinja_environment.get_template('templates/search.html')
+    template = jinja_environment.get_template('templates/index.html')
     self.response.out.write(template.render(template_values))
 
 class ContactPage(webapp2.RequestHandler):
