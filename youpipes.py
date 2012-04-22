@@ -2,6 +2,7 @@ import cgi
 import os
 import webapp2
 import jinja2
+import datetime
 from google.appengine.api import mail
 
 import gdata.youtube
@@ -24,9 +25,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(template.render(template_values))
 
 class SearchPage(webapp2.RequestHandler):
-  def get(self):
-    search_term = cgi.escape(self.request.get("v")).encode('UTF-8')    
-
+  def get(self):    
+    search_term = cgi.escape(self.request.get("v")).encode('UTF-8')        
     if not search_term:
         self.redirect('/')
         return
@@ -36,7 +36,7 @@ class SearchPage(webapp2.RequestHandler):
     query = gdata.youtube.service.YouTubeVideoQuery()
 
     query.vq = search_term
-    query.max_results = '25'
+    query.max_results = self.request.cookies.get('items_per_page', '25')
     template_values = {
         'feed': client.YouTubeQuery(query),
         'title': "Searching for '%s'" % search_term,
@@ -58,16 +58,22 @@ class ContactPage(webapp2.RequestHandler):
         message.body = cgi.escape(self.request.get('content'))
         message.send()
         self.redirect('/')
-        
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/about.html')
         self.response.out.write(template.render({})) 
+
+class ItemsPerPageQuery(webapp2.RequestHandler):
+    def get(self):
+        expiration = datetime.datetime.utcnow() + datetime.timedelta(days=30)
+        self.response.headers.add_header('Set-Cookie','items_per_page=%s; expires=%s; path=/search;' %
+            (str(self.request.get("nb", '25')), expiration))
            
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/search', SearchPage),
     ('/about', AboutPage),
     ('/contact', ContactPage),
+    ('/items', ItemsPerPageQuery),
     ],debug=True)
