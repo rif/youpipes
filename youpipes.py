@@ -17,7 +17,8 @@ class MainPage(webapp2.RequestHandler):
     gdata.alt.appengine.run_on_appengine(client)    
     template_values = {
         'feed': client.GetRecentlyFeaturedVideoFeed(),
-        'title': 'Recently Featured Videos'
+        'title': 'Recently Featured Videos',
+        'autoplay': 'false',
         }
     template = jinja_environment.get_template('templates/index.html')
     self.response.out.write(template.render(template_values))
@@ -39,7 +40,7 @@ class SearchPage(webapp2.RequestHandler):
     template_values = {
         'feed': client.YouTubeQuery(query),
         'title': "Searching for '%s'" % search_term,
-        'search_term': search_term,
+        'autoplay': 'true',
     }
     template = jinja_environment.get_template('templates/index.html')
     self.response.out.write(template.render(template_values))
