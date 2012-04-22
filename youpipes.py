@@ -57,8 +57,8 @@ class ContactPage(webapp2.RequestHandler):
     def post(self):
         name = cgi.escape(self.request.get('from')).encode('UTF-8')
         email = cgi.escape(self.request.get('email')).encode('UTF-8')
-        message = mail.EmailMessage(sender="Radu Fericean (YouPipes) <fericean@gmail.com>",
-                            subject="YouPipes message from %s (%s)" % (name, email))
+        message = mail.EmailMessage(sender="Radu Fericean (YouHero) <fericean@gmail.com>",
+                            subject="YouHero message from %s (%s)" % (name, email))
         message.to = "Radu Fericean <radu@fericean.ro>"
         message.body = cgi.escape(self.request.get('content'))
         message.send()
