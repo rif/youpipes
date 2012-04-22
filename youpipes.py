@@ -4,6 +4,7 @@ import webapp2
 import jinja2
 import datetime
 from google.appengine.api import mail
+from google.appengine.api import memcache
 
 import gdata.youtube
 import gdata.youtube.service
@@ -13,16 +14,20 @@ jinja_environment = jinja2.Environment(extensions=['jinja2.ext.autoescape'],\
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__))) 
 
 class MainPage(webapp2.RequestHandler):
-  def get(self):    
-    client = gdata.youtube.service.YouTubeService()
-    gdata.alt.appengine.run_on_appengine(client)    
-    template_values = {
-        'feed': client.GetRecentlyFeaturedVideoFeed(),
-        'title': 'Recently Featured Videos',
-        'autoplay': 'false',
-        }
-    template = jinja_environment.get_template('templates/index.html')
-    self.response.out.write(template.render(template_values))
+  def get(self):   
+    front_page = memcache.get('front_page')
+    if front_page is None:            
+        client = gdata.youtube.service.YouTubeService()
+        gdata.alt.appengine.run_on_appengine(client)    
+        template_values = {
+            'feed': client.GetRecentlyFeaturedVideoFeed(),
+            'title': 'Recently Featured Videos',
+            'autoplay': 'false',
+            }
+        template = jinja_environment.get_template('templates/index.html')
+        front_page = template.render(template_values)
+        memcache.set('front_page', front_page, 60 * 60) #cache for one hour
+    self.response.out.write(front_page)
 
 class SearchPage(webapp2.RequestHandler):
   def get(self):    
@@ -68,7 +73,7 @@ class ItemsPerPageQuery(webapp2.RequestHandler):
     def get(self):
         expiration = datetime.datetime.utcnow() + datetime.timedelta(days=30)
         self.response.headers.add_header('Set-Cookie','items_per_page=%s; expires=%s; path=/search;' %
-            (str(self.request.get("nb", '25')), expiration))
+            (str(self.request.get("nb", '25')), expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")))
            
 app = webapp2.WSGIApplication([
     ('/', MainPage),
