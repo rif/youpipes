@@ -74,16 +74,11 @@ class ItemsPerPageQuery(webapp2.RequestHandler):
         expiration = datetime.datetime.utcnow() + datetime.timedelta(days=30)
         self.response.headers.add_header('Set-Cookie','items_per_page=%s; expires=%s; path=/search;' %
             (str(self.request.get("nb", '25')), expiration.strftime("%a, %d-%b-%Y %H:%M:%S UTC")))
-
-class GoogleVerifyPage(webapp2.RequestHandler):
-    def get(self):
-       self.response.out.write('google-site-verification: google841527a192bbf726.html')
     
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/search', SearchPage),
     ('/about', AboutPage),
     ('/contact', ContactPage),
-    ('/items', ItemsPerPageQuery),
-    ('/google841527a192bbf726.html', GoogleVerifyPage),
+    ('/items', ItemsPerPageQuery),    
     ],debug=True)
