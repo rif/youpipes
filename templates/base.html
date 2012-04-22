@@ -57,18 +57,18 @@
       <div class="hero-unit">
       		{% block herocontent %}
       		<h1>YouPipes</h1>      		
-		    <form action="/search" method="get" class="form-horizontal">
+		    <form action="/search" method="get" id="master-form" class="form-horizontal">
 		    <fieldset>		    	
 		    	<div class="control-group">            		
             		<div class="controls">
             			<p>No more playlists, just search and enjoy the stream!</p>
 		          		<div class="input-append">
-		            		<input name="v" placeholder="Search" id="master-search" size="100" type="text"><button class="btn" type="button"><i class="icon-search"></i></button>
+		            		<input name="v" placeholder="Search" id="master-search" size="100" type="text"><button onclick="$('form.form-horizontal').submit()" class="btn" type="button"><i class="icon-search"></i></button>
 		          		</div>
             		</div>
           		</div>
           	</fieldset>		    	
-		    </form>      
+		    </form>		    
 		    {% endblock %}  
       </div>
 
@@ -98,6 +98,11 @@
 	</script>
 	<script type="text/javascript" src="http://webplayer.yahooapis.com/player.js"></script>
 	{% block extrascripts %}{% endblock %}
+	<script type="text/javascript">
+	$(function() {
+		$("#master-search").focus();
+	});
+	</script>
 	{% endblock %}
 	<script type="text/javascript"> var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-10073547-7']); _gaq.push(['_trackPageview']); (function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })(); </script>
   </body>
