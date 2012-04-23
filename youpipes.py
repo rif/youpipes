@@ -3,6 +3,7 @@ import os
 import webapp2
 import jinja2
 import datetime
+import logging
 from google.appengine.api import mail
 from google.appengine.api import memcache
 
@@ -15,6 +16,8 @@ jinja_environment = jinja2.Environment(extensions=['jinja2.ext.autoescape'],
 
 class MainPage(webapp2.RequestHandler):
   def get(self):   
+    if self.request.host == 'youpipes.appspot.com':     
+        self.redirect('http://youhe.ro')
     front_page = memcache.get('front_page')
     if front_page is None:            
         client = gdata.youtube.service.YouTubeService()
