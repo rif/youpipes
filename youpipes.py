@@ -16,7 +16,7 @@ jinja_environment = jinja2.Environment(extensions=['jinja2.ext.autoescape'],
 class MainPage(webapp2.RequestHandler):
   def get(self):   
     front_page = memcache.get('front_page')
-    if True or front_page is None:            
+    if front_page is None:            
         client = gdata.youtube.service.YouTubeService()
         gdata.alt.appengine.run_on_appengine(client)    
         template_values = {
