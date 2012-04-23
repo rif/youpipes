@@ -3,7 +3,6 @@ import os
 import webapp2
 import jinja2
 import datetime
-import logging
 from google.appengine.api import mail
 from google.appengine.api import memcache
 
@@ -34,7 +33,7 @@ class MainPage(webapp2.RequestHandler):
 
 class SearchPage(webapp2.RequestHandler):
   def get(self):    
-    search_term = cgi.escape(self.request.get("v")).encode('UTF-8')        
+    search_term = cgi.escape(self.request.get("v")).encode('UTF-8')            
     if not search_term:
         self.redirect('/')
         return
@@ -47,7 +46,7 @@ class SearchPage(webapp2.RequestHandler):
     query.max_results = self.request.cookies.get('items_per_page', '25')
     template_values = {
         'feed': client.YouTubeQuery(query),
-        'title': "Searching for '%s'" % search_term,
+        'title': "Searching for '%s'" % search_term.decode('UTF-8'),
         'autoplay': 'true',
     }
     template = jinja_environment.get_template('templates/index.html')
