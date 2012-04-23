@@ -15,15 +15,16 @@ jinja_environment = jinja2.Environment(extensions=['jinja2.ext.autoescape'],
 
 class MainPage(webapp2.RequestHandler):
   def get(self):   
-    if self.request.host == 'youpipes.appspot.com':     
-        self.redirect('http://youhe.ro')
+    #if self.request.host == 'youpipes.appspot.com':     
+    #    self.redirect('http://youhe.ro')
     front_page = memcache.get('front_page')
     if front_page is None:            
         client = gdata.youtube.service.YouTubeService()
         gdata.alt.appengine.run_on_appengine(client)    
         template_values = {
             'feed': client.GetRecentlyFeaturedVideoFeed(),
-            'title': 'Recently Featured Videos',
+            'title': 'YouHero',
+            'header': 'Recently Featured Videos',
             'autoplay': 'false',
             }
         template = jinja_environment.get_template('templates/index.html')
@@ -46,7 +47,8 @@ class SearchPage(webapp2.RequestHandler):
     query.max_results = self.request.cookies.get('items_per_page', '25')
     template_values = {
         'feed': client.YouTubeQuery(query),
-        'title': "Searching for '%s'" % search_term.decode('UTF-8'),
+        'title': search_term.decode('UTF-8'),
+        'header': "Searching for '%s'" % search_term.decode('UTF-8'),
         'autoplay': 'true',
     }
     template = jinja_environment.get_template('templates/index.html')
