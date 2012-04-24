@@ -59,8 +59,10 @@
 
     <div class="container">      
       <div class="hero-unit">
-      		{% block herocontent %}
-      		<a class="brand" href="/"><img src="/img/youhero.png" alt="youhero" /></a>      		
+      		{% block herocontent %}      		
+      		<a class="brand" href="/"><img src="/img/youhero.png" alt="youhero" /></a>  
+      		 <div class="row">	
+      		 	<div class="span5">
 		    <form action="/search" method="get" id="master-form" class="form-horizontal">
 		    <fieldset>		    	
 		    	<div class="control-group">            		
@@ -72,40 +74,30 @@
             		</div>
           		</div>
           	</fieldset>		    	
-		    </form>
-		    <div class="row" id="items-per-page">
-		    	<div class="span3 offset9">
+		    </form>		  
+		    </div>  
+		    <div class="span3 offset3">		    
+		    	<div>
 		    	<h4>Items per page:
 		    	<a class="items-link" href="/items?nb=10">10</a>
 		    	<a class="items-link" href="/items?nb=25">25</a>
 		    	<a class="items-link" href="/items?nb=50">50</a>
 		    	</h4>
-		    	</div>
-		    </div>				    	    
-		    <div class="row">
-		         	<div class="span3 offset9">
-		         	<div class="fb-like" data-href="http://www.youhe.ro" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>		         	
-		         	</div>
-		     </div>	
-		     <div class="row">
-		    	<div class="span3 offset9">
-		    		<div class="g-plusone" data-size="small" data-annotation="inline"></div>
-		    	</div>
-		    </div>
-		    <div class="row">
-		        	<div class="span3 offset9">
-						<!-- Lockerz Share BEGIN -->
-						<div class="a2a_kit a2a_default_style">
-							<a class="a2a_dd" href="http://www.addtoany.com/share_save">Share</a>
-							<span class="a2a_divider"></span>							
-							<a class="a2a_button_facebook"></a>
-							<a class="a2a_button_twitter"></a>
-							<a class="a2a_button_email"></a>
-						</div>
-						<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
-						<!-- Lockerz Share END -->
-		        	</div>
-		     </div>		        
+		    	</div>	         	
+	         	<div class="fb-like" data-href="http://www.youhe.ro" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>		         		         			     			     		    	
+		    	<div class="g-plusone" data-size="small" data-annotation="inline"></div>		    	
+				<!-- Lockerz Share BEGIN -->
+				<div class="a2a_kit a2a_default_style">
+					<a class="a2a_dd" href="http://www.addtoany.com/share_save">Share</a>
+					<span class="a2a_divider"></span>							
+					<a class="a2a_button_facebook"></a>
+					<a class="a2a_button_twitter"></a>
+					<a class="a2a_button_email"></a>
+				</div>
+				<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+				<!-- Lockerz Share END -->		   		     
+		     </div>
+		     </div>        
 		    {% endblock %}  
       </div><!-- hero unit -->
       <div>

@@ -18,7 +18,7 @@ class MainPage(webapp2.RequestHandler):
     #if self.request.host == 'youpipes.appspot.com':     
     #    self.redirect('http://youhe.ro')
     front_page = memcache.get('front_page')
-    if front_page is None:            
+    if True or front_page is None:            
         client = gdata.youtube.service.YouTubeService()
         gdata.alt.appengine.run_on_appengine(client)    
         template_values = {
